@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\Contracts\TransactionRepositoryInterface;
 use App\Repositories\Contracts\GameSessionRepositoryInterface;
 
+
 class TransactionService
 {
     public function __construct(
@@ -52,5 +53,10 @@ class TransactionService
             'shuttlecock_fee' => $cockFee,
             'total_fee' => $courtFee + $cockFee
         ];
+    }
+
+    public function markAsPaid(int $id)
+    {
+        return $this->transactionRepository->markAsPaid($id);
     }
 }

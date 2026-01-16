@@ -22,4 +22,15 @@ class TransactionController extends Controller
             'data' => $trx
         ], 201);
     }
+
+    public function markPaid(int $id)
+    {
+        $trx = $this->service->markAsPaid($id);
+    
+        return response()->json([
+            'success' => true,
+            'data' => $trx
+        ]);
+    }
+
 }

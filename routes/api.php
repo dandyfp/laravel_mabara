@@ -9,3 +9,4 @@ Route::get('/game-sessions/{id}/summary', [GameSessionController::class, 'summar
 Route::post('/game-sessions', [GameSessionController::class, 'store']);
 Route::post('/transactions', [TransactionController::class, 'store']);
 Route::get('reports/daily',[ReportController::class,'daily']);
+Route::patch('transactions/{id}/mark-paid', [TransactionController::class, 'markPaid']);

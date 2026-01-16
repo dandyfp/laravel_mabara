@@ -26,4 +26,5 @@ class TransactionRepository implements TransactionRepositoryInterface
     {
         return Transaction::where('session_id', $sessionId)->get();
     }
+
 }
