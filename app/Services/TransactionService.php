@@ -59,4 +59,21 @@ class TransactionService
     {
         return $this->transactionRepository->markAsPaid($id);
     }
+
+    public function updateTransaction(int $id, array $data)
+    {
+        // Hitung ulang biaya berdasarkan data baru yang dikirim admin
+        $fees = $this->calculate(
+            (int) $data['play_count'],
+            (int) $data['shuttlecock_count']
+        );
+
+        $updateData = array_merge($data, [
+            'court_fee'       => $fees['court_fee'],
+            'shuttlecock_fee' => $fees['shuttlecock_fee'],
+            'total_fee'       => $fees['total_fee'],
+        ]);
+
+        return $this->transactionRepository->update($id, $updateData);
+    }
 }

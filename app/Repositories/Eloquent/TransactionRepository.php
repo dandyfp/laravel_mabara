@@ -27,4 +27,16 @@ class TransactionRepository implements TransactionRepositoryInterface
         return Transaction::where('session_id', $sessionId)->get();
     }
 
+    public function update(int $id, array $data): Transaction
+    {
+        $trx = Transaction::findOrFail($id);
+        $trx->update($data);
+        return $trx;
+    }
+
+    public function find(int $id): Transaction
+    {
+        return Transaction::findOrFail($id);
+    }
+
 }

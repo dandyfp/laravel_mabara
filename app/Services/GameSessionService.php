@@ -38,6 +38,8 @@ class GameSessionService
                 'unpaid' => $transactions->where('payment_status', 'pending')->sum('total_fee'),
             ],
             'players' => $transactions->map(fn ($trx) => [
+                'id' => $trx->id,
+                'shuttlecock_count' => $trx->shuttlecock_count,
                 'player_name' => $trx->player_name,
                 'play_count' => $trx->play_count,
                 'total_fee' => $trx->total_fee,
