@@ -18,4 +18,10 @@ class GameSessionController extends Controller
             201
         );
     }
+    public function summary(int $sessionId)
+    {
+        return response()->json(
+            $this->gameSessionService->summary($sessionId),201
+        );
+    }
 }

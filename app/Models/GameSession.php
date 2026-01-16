@@ -10,7 +10,7 @@ class GameSession extends Model
 
     public function transactions()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class, 'session_id');
     }
 
     public function cashLedger()
