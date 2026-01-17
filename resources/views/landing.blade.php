@@ -76,6 +76,39 @@
             </form>
         </div>
     </div>
+    <footer class="mt-20 pb-10 px-6 border-t border-slate-100">
+    <div class="max-w-md mx-auto pt-8">
+        <div class="flex flex-col items-center text-center">
+            <div class="flex items-center gap-2 mb-4">
+                <div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white text-lg shadow-lg shadow-green-200">
+                    🏸
+                </div>
+                <span class="font-black text-slate-800 tracking-tight">MABARA</span>
+            </div>
+
+            <p class="text-slate-500 text-sm mb-6 leading-relaxed px-4">
+                Butuh sistem kustom atau ingin buat project serupa? <br>
+                Jangan ragu untuk diskusi dengan saya.
+            </p>
+
+            <a href="https://wa.me/6281380401781?text=Halo%20Dandy,%20saya%20tertarik%20dengan%20sistem%20Mabara%20Anda." 
+               target="_blank"
+               class="inline-flex items-center gap-2 bg-white border border-slate-200 px-6 py-3 rounded-2xl text-slate-700 text-sm font-bold shadow-sm hover:shadow-md hover:bg-slate-50 transition-all active:scale-95 mb-10">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="w-5 h-5" alt="WA">
+                Hubungi Dandy (Support)
+            </a>
+
+            <div class="flex flex-col gap-1 items-center">
+                <p class="text-[10px] text-slate-400 font-medium uppercase tracking-[0.2em]">
+                    &copy; 2026 MABARA PROJECT • ALL RIGHTS RESERVED
+                </p>
+                <p class="text-[10px] text-slate-300">
+                    Handcrafted with ❤️ by <span class="text-slate-400 font-bold">Dandy</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
 
     <script>
         function openModal() {
