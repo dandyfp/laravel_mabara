@@ -14,9 +14,11 @@ class TransactionRepository implements TransactionRepositoryInterface
     public function markAsPaid(int $id): Transaction
     {
         $trx = Transaction::findOrFail($id);
+        $newStatus = $trx->payment_status === 'paid' ? 'pending' : 'paid';
+        $paidAt = ($newStatus === 'paid') ? now() : null;
         $trx->update([
-            'payment_status' => 'paid',
-            'paid_at' => now()
+            'payment_status' => $newStatus,
+            'paid_at' => $paidAt
         ]);
 
         return $trx;

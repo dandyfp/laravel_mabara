@@ -33,6 +33,9 @@ class TransactionController extends Controller
     public function markPaid(int $id)
     {
         $trx = $this->service->markAsPaid($id);
+        if (!request()->expectsJson()) {
+            return redirect()->back()->with('success', 'Status pembayaran berhasil diperbarui!');
+        }
 
         return response()->json([
             'success' => true,
