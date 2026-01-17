@@ -13,4 +13,8 @@ class GameSessionRepository implements GameSessionRepositoryInterface
             ['opening_balance' => 0]
         );
     }
+    public function getBySession(int $sessionId)
+    {
+        return GameSession::findOrFail($sessionId)->transactions;
+    }
 }

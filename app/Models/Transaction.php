@@ -21,6 +21,6 @@ class Transaction extends Model
 
     public function session()
     {
-        return $this->belongsTo(GameSession::class);
+        return $this->belongsTo(GameSession::class,'session_id');
     }
 }
