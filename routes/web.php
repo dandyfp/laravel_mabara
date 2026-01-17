@@ -22,3 +22,8 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 Route::patch('/transactions/{id}/status', [TransactionController::class, 'markPaid'])->name('admin.mark-paid');
 Route::put('/transactions/{id}', [TransactionController::class, 'update'])->name('admin.update-transaction');
 Route::delete('/transactions/{id}', [TransactionController::class, 'destroy'])->name('admin.delete-transaction');
+
+Route::get('/jalankan-migrasi-mabara', function () {
+    Artisan::call('migrate:fresh', ['--force' => true]);
+    return "Migrasi Berhasil!";
+});
