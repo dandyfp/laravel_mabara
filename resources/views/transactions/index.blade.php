@@ -34,7 +34,7 @@
                     Login Admin
                 </a>
             @endif
-        </div>
+            </div>
         </div>
 
         <div class="grid grid-cols-2 gap-4 mt-6">
@@ -72,20 +72,21 @@
                         <span class="text-slate-800 font-bold text-base block">{{ $player['player_name'] }}</span>
                         <div class="flex items-center gap-2 mt-0.5">
                             <p class="text-slate-400 text-xs font-medium">{{ $player['play_count'] }}x Main</p>
-                            <span class="text-slate-300 text-[10px]">•</span> <p class="text-slate-400 text-xs font-medium flex items-center gap-1">
+                            <span class="text-slate-300 text-[10px]">•</span> 
+                            <p class="text-slate-400 text-xs font-medium flex items-center gap-1">
                                 <span class="opacity-70 text-[10px]">🏸</span>
                                 {{ $player['shuttlecock_count'] ?? 0 }} Cock
                             </p>
-
                         </div>
                     </div>
                 </div>
 
                 <div class="text-right">
-                    <p class="font-extrabold text-slate-900 text-sm">Rp {{ number_format($player['total_fee'], 0, ',', '.') }}</p>
-                        @if(session('is_admin'))
+                    <p class="font-extrabold text-slate-900 text-sm mb-1">Rp {{ number_format($player['total_fee'], 0, ',', '.') }}</p>
+                    
+                    @if(session('is_admin'))
                     <div class="flex items-center gap-2">
-                        <button onclick='openEditModal(@json($player))'
+                        <button onclick='openEditModal({!! json_encode($player) !!})'
                                 class="p-2.5 bg-slate-100 text-slate-600 rounded-xl hover:bg-slate-200 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
@@ -111,8 +112,7 @@
                             </button>
                         </form>
                     </div>
-                @else
-                    <div class="text-right">
+                    @else
                         @if($player['status'] == 'paid')
                             <span class="inline-flex items-center gap-1 text-[9px] text-green-600 font-black uppercase bg-green-50 px-2 py-1 rounded-lg">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
@@ -128,8 +128,7 @@
                                 PENDING
                             </span>
                         @endif
-                    </div>
-                @endif
+                    @endif
                 </div>
             </div>
             @empty
@@ -140,25 +139,40 @@
         </div>
     </div>
 
-    <a href="{{ route('home') }}" class="fixed bottom-6 right-6 left-6 bg-slate-900 text-white font-bold py-4 rounded-2xl shadow-2xl flex items-center justify-center gap-2 hover:bg-slate-800 transition-all active:scale-95">
+    <a href="{{ route('home') }}" class="fixed bottom-6 right-6 left-6 bg-slate-900 text-white font-bold py-4 rounded-2xl shadow-2xl flex items-center justify-center gap-2 hover:bg-slate-800 transition-all active:scale-95 z-40">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4" />
         </svg>
         SAYA MAU BAYAR LAGI
     </a>
 
-    @if(session('success'))
-        <div id="snackbar" class="fixed bottom-24 left-6 right-6 z-[100] transition-all duration-500">
-            <div class="bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-3">
-                 <div class="bg-green-500 rounded-full p-1 flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </div>
-                <p class="text-xs font-bold">{{ session('success') }}</p>
-            </div>
+    <!-- <footer class="mt-20 pb-32 px-6 border-t border-slate-200">
+        <div class="max-w-md mx-auto pt-8 text-center">
+            <p class="text-slate-500 text-sm mb-4">Butuh request system atau project? <br> Hubungi <b>081380401781 (Dandy)</b></p>
+            <a href="https://wa.me/6281380401781" target="_blank" class="inline-flex items-center gap-2 bg-green-500 text-white px-5 py-2 rounded-xl text-xs font-bold mb-6">
+                Hubungi via WhatsApp
+            </a>
+            <p class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">
+                &copy; 2026 MABARA PROJECT • BY DANDY
+            </p>
         </div>
-            <div id="editModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-[100] backdrop-blur-sm">
+    </footer> -->
+
+    @if(session('success'))
+    <div id="snackbar" class="fixed bottom-24 left-6 right-6 z-[100] transition-all duration-500">
+        <div class="bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-3">
+             <div class="bg-green-500 rounded-full p-1 flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <p class="text-xs font-bold">{{ session('success') }}</p>
+        </div>
+    </div>
+    @endif
+
+    @if(session('is_admin'))
+    <div id="editModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-[100] backdrop-blur-sm">
         <div class="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl scale-95 transition-all" id="modalContent">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-black text-slate-800">Edit Data Pemain</h3>
@@ -197,43 +211,48 @@
             </form>
         </div>
     </div>
-        <script>
-            function openEditModal(player) {
-                // 1. Set Action URL Form (Gunakan ID dari player)
-                // Pastikan rute 'admin.update' sudah sesuai di web.php
-                document.getElementById('editForm').action = "/transactions/" + player.id;
-        
-                // 2. Isi nilai input modal
-                document.getElementById('edit_name').value = player.player_name;
-                document.getElementById('edit_play').value = player.play_count;
-                document.getElementById('edit_cock').value = player.shuttlecock_count;
-        
-                // 3. Munculkan Modal
-                const modal = document.getElementById('editModal');
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                
-                // Animasi sedikit (optional)
-                setTimeout(() => {
-                    document.getElementById('modalContent').classList.remove('scale-95');
-                    document.getElementById('modalContent').classList.add('scale-100');
-                }, 10);
-            }
+    @endif
 
-            function closeEditModal() {
-                const modal = document.getElementById('editModal');
-                document.getElementById('modalContent').classList.replace('scale-100', 'scale-95');
-                
-                setTimeout(() => {
-                    modal.classList.replace('flex', 'hidden');
-                }, 200);
-            }
+    <script>
+        function openEditModal(player) {
+            console.log("Opening player:", player);
+            
+            const form = document.getElementById('editForm');
+            if(!form) return; // Guard jika bukan admin
+
+            form.action = "/transactions/" + player.id;
+            document.getElementById('edit_name').value = player.player_name;
+            document.getElementById('edit_play').value = player.play_count;
+            document.getElementById('edit_cock').value = player.shuttlecock_count || 0;
+    
+            const modal = document.getElementById('editModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            setTimeout(() => {
+                document.getElementById('modalContent').classList.replace('scale-95', 'scale-100');
+            }, 10);
+        }
+
+        function closeEditModal() {
+            const modal = document.getElementById('editModal');
+            document.getElementById('modalContent').classList.replace('scale-100', 'scale-95');
+            setTimeout(() => {
+                modal.classList.replace('flex', 'hidden');
+            }, 200);
+        }
+
+        // Handle Snackbar Auto-hide
+        @if(session('success'))
             setTimeout(() => { 
                 const s = document.getElementById('snackbar');
-                if(s) { s.style.opacity = '0'; setTimeout(() => s.remove(), 500); }
+                if(s) { 
+                    s.style.opacity = '0'; 
+                    setTimeout(() => s.remove(), 500); 
+                }
             }, 4000);
-        </script>
-    @endif
+        @endif
+    </script>
 
 </body>
 </html>
