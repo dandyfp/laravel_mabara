@@ -2,6 +2,7 @@
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\RegistrationController;
 // Halaman Landing
 Route::get('/', function () {
     return view('landing');
@@ -22,3 +23,12 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 Route::patch('/transactions/{id}/status', [TransactionController::class, 'markPaid'])->name('admin.mark-paid');
 Route::put('/transactions/{id}', [TransactionController::class, 'update'])->name('admin.update-transaction');
 Route::delete('/transactions/{id}', [TransactionController::class, 'destroy'])->name('admin.delete-transaction');
+
+// Route untuk User yang belum login (Guest)
+Route::middleware('guest')->group(function () {
+    // Halaman Form Registrasi
+    Route::get('/register', [RegistrationController::class, 'showRegistrationForm'])->name('register');
+    
+    // Proses pengiriman data Registrasi
+    Route::post('/register', [RegistrationController::class, 'register']);
+});

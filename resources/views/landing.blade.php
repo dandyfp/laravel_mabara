@@ -19,7 +19,7 @@
             </button>
 
             <a href="/login" class="w-full block text-center bg-white border-2 border-slate-200 text-slate-600 font-semibold py-4 rounded-2xl hover:bg-slate-50 transition-all text-lg">
-                Login Admin
+                Login/Daftar sebagai Admin
             </a>
         </div>
     </div>

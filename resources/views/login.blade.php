@@ -34,8 +34,8 @@
             <button type="submit" class="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl shadow-lg hover:bg-slate-800 active:scale-95 transition-all mt-4">
                 Masuk Sekarang
             </button>
-            <a href="{{ route('transactions.index') }}" class="block text-center text-slate-400 text-xs font-semibold hover:text-slate-600 mt-4 underline">
-                Kembali ke List
+            <a href="{{ route('register') }}" class="block text-center text-slate-400 text-xs font-semibold hover:text-slate-600 mt-4 underline">
+                Daftar Sekarang
             </a>
         </form>
     </div>
