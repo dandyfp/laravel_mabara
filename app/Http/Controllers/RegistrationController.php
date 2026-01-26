@@ -25,6 +25,6 @@ class RegistrationController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home')->with('success','Selamat bergabung');
+        return redirect()->route('login')->with('success','Akun berhasil dibuat, silakan login admin.');
     }
 }

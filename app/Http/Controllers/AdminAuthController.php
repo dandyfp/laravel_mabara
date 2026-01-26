@@ -2,6 +2,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; 
+use App\Http\Requests\LoginRequest; 
 
 class AdminAuthController extends Controller
 {
@@ -9,23 +11,22 @@ class AdminAuthController extends Controller
         return view('login');
     }
 
-    public function login(Request $request) {
-        // Ganti dengan password pilihan Anda
-        if ($request->password === 'mabara2026') {
-            session(['is_admin' => true]);
+    public function login(LoginRequest $request) {
+        // Validasi otomatis dijalankan oleh LoginRequest
+        if (Auth::attempt($request->validated())) {
+            $request->session()->regenerate();
             return redirect()->route('transactions.index')->with('success', 'Halo Admin!');
         }
-        return back()->with('error', 'Password salah!');
+
+        return back()->with('error', 'Email atau password salah!');
     }
 
-    public function logout() {
-        session()->forget('is_admin');
+    public function logout(Request $request) {
+        Auth::logout();
+        
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect()->route('home');
-    }
-
-    public function update(Request $request, $id) 
-    {
-        $this->service->updateTransaction($id, $request->all());
-        return redirect()->back()->with('success', 'Data diperbarui!');
     }
 }

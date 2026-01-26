@@ -55,16 +55,25 @@
                 </div>
 
                 <div class="mb-6">
-                    <label class="block text-sm font-bold text-slate-700 mb-2">Jumlah Shuttlecock *</label>
-                    <div class="relative">
-                        <input type="number" name="shuttlecock_count" id="shuttlecock_count" 
-                            value="0" min="0" oninput="calculateTotal()" 
-                            class="w-full px-4 py-3 bg-slate-100 border border-transparent rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500"
-                            placeholder="Isi 0 jika tidak pakai">
-                    </div>
-                    <p id="error-cock" class="text-red-500 text-xs mt-1 hidden font-medium">Isi minimal 1!</p>
-                </div>
+                <label class="block text-sm font-bold text-slate-700 mb-2">Jumlah Shuttlecock *</label>
+                <div class="flex items-center bg-slate-100 rounded-xl p-1 border border-transparent focus-within:ring-2 focus-within:ring-green-500 transition-all">
+                    <button type="button" onclick="stepNumber(-1)" class="w-12 h-12 flex items-center justify-center bg-white rounded-lg shadow-sm hover:bg-slate-50 active:scale-90 transition-all text-xl font-bold text-slate-700">
+                        −
+                    </button>
 
+                    <input type="number" name="shuttlecock_count" id="shuttlecock_count" 
+                        value="0" min="0" 
+                        oninput="calculateTotal()" 
+                        onfocus="clearZero(this)"
+                        onblur="restoreZero(this)"
+                        class="w-full bg-transparent text-center font-bold text-lg focus:outline-none border-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+
+                    <button type="button" onclick="stepNumber(1)" class="w-12 h-12 flex items-center justify-center bg-white rounded-lg shadow-sm hover:bg-slate-50 active:scale-90 transition-all text-xl font-bold text-slate-700">
+                        +
+                    </button>
+                </div>
+                <p id="error-cock" class="text-red-500 text-xs mt-1 hidden font-medium text-left ml-2">Isi minimal 1!</p>
+            </div>
                 <div class="bg-slate-900 p-5 rounded-2xl mb-6 flex justify-between items-center shadow-inner">
                     <span class="text-slate-400 font-medium">Total Tagihan</span>
                     <span id="displayTotal" class="text-2xl font-bold text-green-400">Rp 0</span>
@@ -178,6 +187,31 @@
             }
             
             return isValid;
+        }
+        // Fungsi untuk menghapus angka 0 saat input diklik
+        function clearZero(input) {
+            if (input.value === "0") {
+                input.value = "";
+            }
+        }
+
+        // Fungsi untuk mengembalikan angka 0 jika input ditinggalkan kosong
+        function restoreZero(input) {
+            if (input.value === "") {
+                input.value = "0";
+            }
+        }
+
+        // Fungsi untuk tombol plus dan minus
+        function stepNumber(step) {
+            const input = document.getElementById('shuttlecock_count');
+            let currentValue = parseInt(input.value) || 0;
+            let newValue = currentValue + step;
+
+            if (newValue >= 0) {
+                input.value = newValue;
+                calculateTotal(); // Update total tagihan otomatis
+            }
         }
     </script>
 </body>

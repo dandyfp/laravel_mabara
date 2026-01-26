@@ -9,6 +9,16 @@
 </head>
 <body class="bg-slate-100 flex items-center justify-center min-h-screen p-6">
     <div class="w-full max-w-md bg-white rounded-[2.5rem] p-10 shadow-2xl">
+
+        <div class="mb-6">
+            <a href="{{ url()->previous() }}" 
+               class="inline-flex items-center justify-center w-11 h-11 bg-white border-2 border-black rounded-full hover:bg-slate-50 transition-all active:scale-90 group">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+        </div>
+
         <h1 class="text-3xl font-black text-slate-800 mb-2">Daftar Akun 🏸</h1>
         <p class="text-slate-400 text-sm mb-8 font-medium">Ayo bergabung di komunitas Mabara!</p>
 
