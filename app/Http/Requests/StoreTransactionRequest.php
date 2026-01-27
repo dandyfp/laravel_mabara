@@ -23,7 +23,7 @@ class StoreTransactionRequest extends FormRequest
     {
         return [
             'player_name' => 'required|string|max:100',
-            'play_count' => 'required|integer|min:1|max:3',
+            'play_count' => 'nullable|integer|min:1|max:3',
             'shuttlecock_count' => 'required|integer|min:0',
         ];
     }

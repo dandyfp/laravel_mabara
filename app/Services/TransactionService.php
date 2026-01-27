@@ -15,35 +15,34 @@ class TransactionService
 
     public function createTransaction(array $data)
     {
-        // 1. Ambil / buat session hari ini
         $session = $this->gameSessionRepository->getOrCreateToday();
 
-        // 2. Hitung biaya
-        $fees = $this->calculate(
-            $data['play_count'],
-            $data['shuttlecock_count']
-        );
+        $playCount = $data['play_count'] ?? 0;
+        $cockCount = $data['shuttlecock_count'] ?? 0;
 
-        // 3. Simpan transaksi
+        $fees = $this->calculate($playCount, $cockCount);
+
         return $this->transactionRepository->create([
             'session_id'        => $session->id,
             'player_name'       => $data['player_name'],
-            'play_count'        => $data['play_count'],
+            'play_count'        => $playCount,
             'court_fee'         => $fees['court_fee'],
-            'shuttlecock_count' => $data['shuttlecock_count'],
+            'shuttlecock_count' => $cockCount,
             'shuttlecock_fee'   => $fees['shuttlecock_fee'],
-            'total_fee'      => $fees['total_fee'],
+            'total_fee'         => $fees['total_fee'],
             'payment_status'    => 'pending',
         ]);
     }
 
-    public function calculate(int $playCount, int $cockCount): array
+    public function calculate($playCount, int $cockCount): array
     {
-        $courtFee = match ($playCount) {
+        $count = (int) $playCount;
+
+        $courtFee = match ($count) {
             1 => 8000,
             2 => 10000,
             3 => 12000,
-            default => 0
+            default => 0 
         };
 
         $cockFee = $cockCount * 3000;
