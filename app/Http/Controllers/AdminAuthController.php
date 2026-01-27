@@ -12,13 +12,25 @@ class AdminAuthController extends Controller
     }
 
     public function login(LoginRequest $request) {
-        // Validasi otomatis dijalankan oleh LoginRequest
         if (Auth::attempt($request->validated())) {
-            $request->session()->regenerate();
-            return redirect()->route('transactions.index')->with('success', 'Halo Admin!');
+
+            if (Auth::user()->is_admin) {
+                $request->session()->regenerate();
+                return redirect()->route('transactions.index')
+                ->with('success', 'Halo Admin!')
+                ->withInput($request->only('email'));
+            }
+
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')->with('error', 'Maaf, kamu bukan admin!');
         }
 
-        return back()->with('error', 'Email atau password salah!');
+        return back()
+        ->with('error', 'Email atau password salah!')
+        ->withInput($request->only('email'));
     }
 
     public function logout(Request $request) {
