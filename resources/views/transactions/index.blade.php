@@ -66,9 +66,10 @@
                         <span class="text-slate-800 font-bold text-base block">{{ $player['player_name'] }}</span>
                         <div class="flex items-center gap-2 mt-0.5">
                             <p class="text-slate-400 text-xs font-medium">{{ $player['play_count'] }}x Main</p>
-                            <span class="text-slate-300 text-[10px]">•</span> 
+                        </div>
+                        <div class="flex items-center gap-2 mt-0.5">
                             <p class="text-slate-400 text-xs font-medium flex items-center gap-1">
-                                <span class="opacity-70 text-[10px]">🏸</span>
+                                <!-- <span class="opacity-70 text-[10px]">🏸</span> -->
                                 {{ $player['shuttlecock_count'] ?? 0 }} Cock
                             </p>
                         </div>
