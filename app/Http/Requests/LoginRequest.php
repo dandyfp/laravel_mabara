@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTransactionRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,17 @@ class StoreTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'player_name' => 'required|string|max:100',
-            'play_count' => 'nullable|integer|min:1|max:3',
-            'shuttlecock_count' => 'required|integer|min:0',
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'password.required' => 'Password wajib diisi.',
         ];
     }
 }
