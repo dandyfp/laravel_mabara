@@ -16,7 +16,8 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" /></svg>
             </a>
             <h1 class="text-white font-bold text-sm uppercase tracking-widest">Detail Arus Kas</h1>
-            <div class="w-10"></div> </div>
+            <div class="w-10"></div> 
+        </div>
 
         <div class="text-center">
             <p class="text-slate-400 text-xs font-bold uppercase tracking-[0.2em] mb-2">Sisa Saldo Saat Ini</p>
@@ -64,6 +65,15 @@
                         {{ $log->type == 'in' ? '+' : '-' }} Rp {{ number_format($log->amount, 0, ',', '.') }}
                     </p>
                     <p class="text-[9px] text-slate-300 font-bold mt-1">Saldo: Rp {{ number_format($log->current_balance, 0, ',', '.') }}</p>
+                    
+                    @if($log->type == 'out')
+                    <form action="{{ route('cash.ledger.destroy', $log->id) }}" method="POST" onsubmit="return confirm('Hapus data ini? Saldo akan dikembalikan otomatis.')" class="mt-2">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="text-[8px] font-black text-red-400 border border-red-100 px-2 py-1 rounded-lg uppercase tracking-widest hover:bg-red-50 transition-all">
+                            Hapus & Koreksi
+                        </button>
+                    </form>
+                    @endif
                 </div>
             </div>
             @empty
@@ -73,5 +83,78 @@
             @endforelse
         </div>
     </div>
+
+    <div id="expenseModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-6 z-[100]">
+        <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-8 shadow-2xl overflow-hidden relative">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-black text-slate-800">Catat Biaya 💸</h3>
+                <button onclick="closeExpenseModal()" class="text-slate-300 hover:text-slate-900 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+
+            <form action="{{ route('expenses.store') }}" method="POST" class="space-y-5">
+                @csrf
+                <input type="hidden" name="date" value="{{ date('Y-m-d') }}">
+
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 uppercase ml-2 mb-2">Apa yang dibeli?</label>
+                    <input type="text" name="name" required placeholder="Contoh: Beli Kok, Sewa Lapangan" 
+                        class="w-full px-5 py-4 bg-slate-100 rounded-2xl focus:ring-2 focus:ring-rose-500 outline-none border-none text-sm font-bold text-slate-700 transition-all">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 uppercase ml-2 mb-2">Nominal (Rp)</label>
+                    <input type="number" name="amount" required placeholder="0" 
+                        class="w-full px-5 py-4 bg-slate-100 rounded-2xl focus:ring-2 focus:ring-rose-500 outline-none border-none text-sm font-bold text-slate-700 transition-all">
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-rose-500 text-white font-black py-4 rounded-2xl shadow-lg shadow-rose-200 active:scale-95 transition-all uppercase tracking-widest text-xs">
+                        Simpan & Potong Saldo
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="fixed bottom-8 left-0 right-0 flex justify-center z-40 pointer-events-none">
+        <button onclick="openExpenseModal()" class="pointer-events-auto bg-slate-900 text-white rounded-full p-2 pr-6 shadow-2xl shadow-slate-900/40 flex items-center gap-4 transition-all active:scale-95 group hover:bg-slate-800 border border-slate-700/50 backdrop-blur-md">
+
+            <div class="w-12 h-12 bg-rose-500 rounded-full flex items-center justify-center text-xl shadow-lg shadow-rose-500/30 group-hover:rotate-90 transition-transform duration-300">
+                💸
+            </div>
+
+            <div class="text-left">
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider leading-none mb-0.5">Ada Pengeluaran?</p>
+                <p class="text-sm font-black text-white leading-none">Catat Disini</p>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-500 group-hover:text-white transition-colors ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        function openExpenseModal() {
+            const modal = document.getElementById('expenseModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeExpenseModal() {
+            const modal = document.getElementById('expenseModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Close modal if clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('expenseModal');
+            if (event.target == modal) {
+                closeExpenseModal();
+            }
+        }
+    </script>
 </body>
 </html>

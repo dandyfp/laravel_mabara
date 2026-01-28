@@ -7,6 +7,9 @@ use App\Models\Expense;
 use App\Models\CashLedger; // Tambahkan ini
 use App\Models\GameSession; // Tambahkan ini jika butuh session_id
 use Illuminate\Support\Facades\DB;
+use App\Services\CashService;
+
+
 
 class ExpenseController extends Controller
 {
@@ -51,5 +54,24 @@ class ExpenseController extends Controller
         });
 
         return back()->with('success', 'Pengeluaran dicatat dan saldo kas dipotong!');
+    }
+
+    public function destroy($id)
+    {
+        DB::transaction(function () use ($id) {
+            $expense = Expense::findOrFail($id);
+
+            // Catat mutasi MASUK ke Ledger (karena uang yang tadinya keluar, dikembalikan)
+            app(CashService::class)->recordMutation(
+                null,
+                "Pembatalan Pengeluaran: " . $expense->name,
+                'in',
+                $expense->amount
+            );
+
+            $expense->delete();
+        });
+
+        return back()->with('success', 'Pengeluaran dihapus dan saldo dikembalikan!');
     }
 }
