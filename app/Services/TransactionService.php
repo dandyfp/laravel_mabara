@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Repositories\Contracts\TransactionRepositoryInterface;
 use App\Repositories\Contracts\GameSessionRepositoryInterface;
+use App\Services\CashService;
+
 
 
 class TransactionService
@@ -56,7 +58,17 @@ class TransactionService
 
     public function markAsPaid(int $id)
     {
-        return $this->transactionRepository->markAsPaid($id);
+        $transaction = $this->transactionRepository->markAsPaid($id);
+
+        // Gunakan app() atau inject lewat constructor
+        app(CashService::class)->recordMutation(
+            $transaction->session_id,
+            "Pembayaran Mabar: " . $transaction->player_name,
+            'in',
+            $transaction->total_fee
+        );
+
+        return $transaction;
     }
 
     public function updateTransaction(int $id, array $data)

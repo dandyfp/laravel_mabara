@@ -47,9 +47,23 @@
                 <p class="text-xl font-extrabold text-white leading-none text-green-300 italic">Rp {{ number_format($report['summary']['paid'], 0, ',', '.') }}</p>
             </div>
         </div>
+            @auth 
+            <div class="mt-4 flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            <a href="{{ route('cash.ledger') }}" class="flex-none bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-3 rounded-2xl border border-white/10 flex items-center gap-3 transition-all">
+                <div class="w-8 h-8 bg-amber-400 rounded-lg flex items-center justify-center text-sm shadow-lg shadow-amber-900/20">💰</div>
+                <div>
+                    <p class="text-[9px] text-green-100 uppercase font-black tracking-widest leading-none mb-1">Total Saldo Kas</p>
+                    <p class="text-sm font-black text-white leading-none">Rp {{ number_format($global_closing_balance, 0, ',', '.') }}</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
+        @endauth
     </div>
 
-    <div class="px-4 -mt-6 relative z-10">
+    <div class="px-4 -mt-12 relative z-10">
         
         <div class="bg-white p-5 rounded-[2.5rem] shadow-xl shadow-slate-200/50 mb-4">
             <div class="flex flex-col gap-4">

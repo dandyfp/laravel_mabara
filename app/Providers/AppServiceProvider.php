@@ -22,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Membagi data saldo ke semua view yang punya komponen header/nav
+        view()->composer('*', function ($view) {
+            $lastBalance = \App\Models\CashLedger::latest('id')->value('current_balance') ?? 0;
+            $view->with('global_closing_balance', $lastBalance);
+        });
     }
 }

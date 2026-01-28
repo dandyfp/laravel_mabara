@@ -3,6 +3,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\CashLedgerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 // Halaman Landing
@@ -37,4 +38,6 @@ Route::get('/logout-manual', function () {
     Session::flush();
     return redirect('/register')->with('success', 'Berhasil logout, sekarang kamu bisa daftar lagi.');
 });
+
+Route::get('/cash-ledger', [App\Http\Controllers\CashLedgerController::class, 'index'])->name('cash.ledger');
 
