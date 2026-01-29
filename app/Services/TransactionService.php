@@ -58,15 +58,31 @@ class TransactionService
 
     public function markAsPaid(int $id)
     {
+        // 1. Biarkan Repository melakukan Toggle (Paid <-> Pending)
         $transaction = $this->transactionRepository->markAsPaid($id);
 
-        // Gunakan app() atau inject lewat constructor
-        app(CashService::class)->recordMutation(
-            $transaction->session_id,
-            "Pembayaran Mabar: " . $transaction->player_name,
-            'in',
-            $transaction->total_fee
-        );
+        // 2. CEK HASILNYA: Statusnya sekarang apa?
+        if ($transaction->payment_status === 'paid') {
+            
+            // KASUS A: Jadi LUNAS (Uang Masuk)
+            app(CashService::class)->recordMutation(
+                $transaction->session_id,
+                "Pembayaran Mabar: " . $transaction->player_name,
+                'in', // <--- Tipe Masuk
+                $transaction->total_fee
+            );
+
+        } else {
+            
+            // KASUS B: Jadi PENDING / BATAL (Uang Keluar/Koreksi)
+            // Kita catat sebagai pengeluaran agar saldo kas berkurang kembali
+            app(CashService::class)->recordMutation(
+                $transaction->session_id,
+                "Koreksi Pembayaran: " . $transaction->player_name,
+                'out', // <--- Tipe Keluar (PENTING!)
+                $transaction->total_fee
+            );
+        }
 
         return $transaction;
     }

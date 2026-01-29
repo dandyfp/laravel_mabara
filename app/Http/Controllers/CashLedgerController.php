@@ -24,4 +24,36 @@ class CashLedgerController extends Controller
 
         return view('admin.cash.ledger', compact('ledgers', 'closing_balance'));
     }
+
+    // Tambahkan method ini di dalam class CashLedgerController
+
+    public function storeIncome(Request $request)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:1',
+            'description' => 'required|string|max:255',
+            'date' => 'required|date',
+        ]);
+            // 1. Cari Saldo Terakhir di database
+        // Kita ambil data paling baru berdasarkan ID
+        $lastLedger = \App\Models\CashLedger::latest('id')->first();
+
+        // Jika ada data sebelumnya, ambil current_balance-nya. Jika tidak ada (data pertama), set 0.
+        $lastBalance = $lastLedger ? $lastLedger->current_balance : 0;
+
+        // 2. Hitung Saldo Baru (Karena ini Pemasukan, maka DITAMBAH)
+        $newBalance = $lastBalance + $request->amount;
+
+        CashLedger::create([
+            'session_id' => null,
+            'user_id' => auth()->id(),
+            'date' => $request->date,
+            'type' => 'in', // PENTING: Type 'in' artinya uang masuk
+            'amount' => $request->amount,
+            'description' => $request->description,
+            'current_balance' => $newBalance
+        ]);
+
+        return back()->with('success', 'Saldo berhasil ditambahkan!');
+    }
 }

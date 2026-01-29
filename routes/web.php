@@ -60,6 +60,8 @@ Route::prefix('admin')->group(function () {
 
 });
 
+Route::post('/cash-ledger/store-income', [CashLedgerController::class, 'storeIncome'])->name('cash.ledger.store-income');
+
 Route::get('/jalankan-migrasi-mabara', function () {
     Artisan::call('migrate:fresh', ['--force' => true]);
     return "Migrasi Berhasil!";
