@@ -28,7 +28,7 @@
     </div>
 
     <div class="px-6 -mt-10 relative z-10">
-        <div class="bg-white p-5 rounded-[2rem] shadow-xl shadow-slate-200 border border-slate-100 mb-6">
+        <!-- <div class="bg-white p-5 rounded-[2rem] shadow-xl shadow-slate-200 border border-slate-100 mb-6">
             <form action="{{ route('cash.ledger') }}" method="GET" class="flex items-center gap-3">
                 <div class="flex-1 bg-slate-50 p-2 rounded-2xl border border-slate-100">
                     <p class="text-[9px] font-black text-slate-400 uppercase ml-2 mb-1">Filter Periode</p>
@@ -42,7 +42,33 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                 </button>
             </form>
+        </div> -->
+        <div class="bg-white p-4 rounded-[2rem] shadow-xl shadow-slate-200 border border-slate-100 mb-6">
+    
+    <div class="flex justify-between items-center mb-3 px-1">
+        <p class="text-[9px] font-black text-slate-400 uppercase tracking-wider">Filter & Saldo</p>
+        
+        <button onclick="openIncomeModal()" class="group flex items-center gap-1.5 bg-green-50 hover:bg-green-100 text-green-600 border border-green-100 px-3 py-1.5 rounded-full transition-all active:scale-95">
+            <div class="w-4 h-4 bg-green-500 text-white rounded-full flex items-center justify-center text-[8px] shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-2.5 w-2.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <span class="text-[10px] font-bold uppercase tracking-wide">Isi Saldo</span>
+        </button>
+    </div>
+
+    <form action="{{ route('cash.ledger') }}" method="GET" class="flex items-center gap-2">
+        <div class="flex-1 bg-slate-50 p-1.5 rounded-xl border border-slate-100 flex items-center gap-2">
+            <input type="date" name="start" value="{{ request('start') }}" class="bg-transparent text-[10px] font-bold text-slate-600 outline-none w-full px-1">
+            <span class="text-slate-300 text-[10px]">-</span>
+            <input type="date" name="end" value="{{ request('end') }}" class="bg-transparent text-[10px] font-bold text-slate-600 outline-none w-full px-1">
         </div>
+        <button type="submit" class="w-10 h-10 bg-slate-900 text-white rounded-xl flex items-center justify-center shadow-md active:scale-90 transition-all hover:bg-slate-800">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+        </button>
+    </form>
+</div>
 
         <div class="space-y-3">
             <h3 class="text-slate-800 font-extrabold text-sm ml-2 mb-4">Aktivitas Terakhir</h3>
@@ -117,6 +143,42 @@
             </form>
         </div>
     </div>
+    <div id="incomeModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-6 z-[100]">
+        <div class="bg-white w-full max-w-sm rounded-[2.5rem] p-8 shadow-2xl overflow-hidden relative">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-black text-slate-800">Tambah Saldo 💰</h3>
+                <button onclick="closeIncomeModal()" class="text-slate-300 hover:text-slate-900 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+
+            <form action="{{ route('cash.ledger.store-income') }}" method="POST" class="space-y-5">
+                @csrf
+                <div class="mb-3">
+                    <label class="block text-[10px] font-black text-slate-400 uppercase ml-2 mb-2">Tanggal</label>
+                    <input type="date" name="date" value="{{ date('Y-m-d') }}" class="w-full px-5 py-4 bg-slate-100 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none border-none text-sm font-bold text-slate-700">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 uppercase ml-2 mb-2">Sumber Dana / Keterangan</label>
+                    <input type="text" name="description" required placeholder="Contoh: Sisa Kas Buku Lama, Donasi" 
+                        class="w-full px-5 py-4 bg-slate-100 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none border-none text-sm font-bold text-slate-700 transition-all">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 uppercase ml-2 mb-2">Nominal (Rp)</label>
+                    <input type="number" name="amount" required placeholder="0" 
+                        class="w-full px-5 py-4 bg-slate-100 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none border-none text-sm font-bold text-slate-700 transition-all">
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-green-500 text-white font-black py-4 rounded-2xl shadow-lg shadow-green-200 active:scale-95 transition-all uppercase tracking-widest text-xs">
+                        Simpan Pemasukan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="fixed bottom-8 left-0 right-0 flex justify-center z-40 pointer-events-none">
         <button onclick="openExpenseModal()" class="pointer-events-auto bg-slate-900 text-white rounded-full p-2 pr-6 shadow-2xl shadow-slate-900/40 flex items-center gap-4 transition-all active:scale-95 group hover:bg-slate-800 border border-slate-700/50 backdrop-blur-md">
 
@@ -153,6 +215,31 @@
             const modal = document.getElementById('expenseModal');
             if (event.target == modal) {
                 closeExpenseModal();
+            }
+        }
+        function openIncomeModal() {
+            const modal = document.getElementById('incomeModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeIncomeModal() {
+            const modal = document.getElementById('incomeModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+        // ====================================
+
+        // Update fungsi klik outside agar bisa menutup kedua modal
+        window.onclick = function(event) {
+            const expenseModal = document.getElementById('expenseModal');
+            const incomeModal = document.getElementById('incomeModal');
+            
+            if (event.target == expenseModal) {
+                closeExpenseModal();
+            }
+            if (event.target == incomeModal) {
+                closeIncomeModal();
             }
         }
     </script>

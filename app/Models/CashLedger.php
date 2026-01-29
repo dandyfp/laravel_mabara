@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CashLedger extends Model
 {
     protected $fillable = [
+        'user_id',
         'session_id',
         'description',      // Untuk catat: "Bayar Lapangan", "Beli Air", dll
         'type',             // 'in' untuk uang masuk, 'out' untuk uang keluar

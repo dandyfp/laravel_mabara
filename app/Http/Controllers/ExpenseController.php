@@ -50,6 +50,7 @@ class ExpenseController extends Controller
                 'type' => 'out',
                 'amount' => $data['amount'],
                 'current_balance' => $lastBalance - $data['amount'],
+                'user_id' => auth()->id(),
             ]);
         });
 

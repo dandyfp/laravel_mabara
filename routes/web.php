@@ -59,3 +59,5 @@ Route::prefix('admin')->group(function () {
     Route::delete('/cash-ledger/{id}', [CashLedgerController::class, 'destroy'])->name('cash.ledger.destroy');
 
 });
+
+Route::post('/cash-ledger/store-income', [CashLedgerController::class, 'storeIncome'])->name('cash.ledger.store-income');

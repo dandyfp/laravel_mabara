@@ -24,6 +24,7 @@ class CashService
 
             // 3. Simpan ke Buku Besar (CashLedger)
             return CashLedger::create([
+                'user_id'         => auth()->id(),
                 'session_id'      => $sessionId,
                 'description'     => $description,
                 'type'            => $type,
