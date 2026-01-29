@@ -20,6 +20,7 @@
 /storage/pail
 /vendor
 /Dockerfile
+Dockerfile
 Homestead.json
 Homestead.yaml
 Thumbs.db
