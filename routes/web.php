@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 // Halaman Landing
 Route::get('/', function () {
+    // Cek apakah user sudah login?
+    if (Auth::check()) {
+        // Jika YA, lempar langsung ke halaman transaksi
+        return redirect()->route('transactions.index');
+    }
+    
+    // Jika TIDAK, tampilkan landing page biasa
     return view('landing');
 })->name('home');
 
