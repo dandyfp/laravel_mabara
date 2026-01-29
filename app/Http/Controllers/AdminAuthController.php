@@ -12,7 +12,7 @@ class AdminAuthController extends Controller
     }
 
     public function login(LoginRequest $request) {
-        if (Auth::attempt($request->validated())) {
+        if (Auth::attempt($request->validated(), true)) {
 
             if (Auth::user()->is_admin) {
                 $request->session()->regenerate();
