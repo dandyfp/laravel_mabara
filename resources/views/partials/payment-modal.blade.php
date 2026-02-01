@@ -21,7 +21,7 @@
                 </label>
                 <select name="play_count" id="play_count" onchange="calculateTotal()" class="w-full px-4 py-3 bg-slate-100 rounded-xl outline-none">
                     <option value="">-- Pilih Sesi --</option>
-                    <option value="1">1x Main (Rp 8.000)</option>
+                    <option value="1">1x Main (Rp 5.000)</option>
                     <option value="2">2x Main (Rp 10.000)</option>
                     <option value="3">3x Main atau lebih (Rp 12.000)</option>
                 </select>
