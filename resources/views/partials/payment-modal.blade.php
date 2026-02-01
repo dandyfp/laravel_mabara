@@ -90,7 +90,7 @@
         const playCount = document.getElementById('play_count').value;
         const cockCount = parseInt(document.getElementById('shuttlecock_count').value) || 0;
         let courtFee = 0;
-        if(playCount == 1) courtFee = 8000;
+        if(playCount == 1) courtFee = 5000;
         else if(playCount == 2) courtFee = 10000;
         else if(playCount == 3) courtFee = 12000;
         const total = courtFee + (cockCount * 3000);
